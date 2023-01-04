@@ -2,13 +2,14 @@ getgenv().autoTap = false
 getgenv().buyegg = false
 getgenv().walkSpeed = false
 getgenv().autoRebirth = false
+getgenv().EquipBest = false
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
 
 
 local Window = Rayfield:CreateWindow({
-	Name = "+1 Blocks Every Second by NETFLIX",
-	LoadingTitle = "+1 Blocks Every Second",
-	LoadingSubtitle = "+1 Blocks Every Second by NETFLIX",
+	Name = "+1 Block Every Second by NETFLIX",
+	LoadingTitle = "+1 Block Every Second",
+	LoadingSubtitle = "+1 Block Every Second by NETFLIX",
 	ConfigurationSaving = {
 		Enabled = true,
 		FolderName = Farming, -- Create a custom folder for your hub/game
@@ -72,6 +73,30 @@ end
 
 local Tab = Window:CreateTab("Eggs", 4483362458)
 local Section = Tab:CreateSection("Egg")
+local Toggle = Tab:CreateToggle({
+    Name = "Auto Equips Best",
+    CurrentValue = false,
+    Flag = "EquipBest",
+    Callback = function (Value)
+        getgenv().EquipBest = Value
+        if Value then
+            EquipBest()
+        end        
+    end
+})
+
+function EquipBest()
+    spawn(function ()
+        while getgenv().EquipBest == true do
+            local args = {
+                [1] = "Equip Best",
+            }
+
+            game:GetService("ReplicatedStorage").RemoteEvents.PetActionRequest:InvokeServer(unpack(args))
+            wait(10)
+        end
+    end)
+end
 
 local eggtable = {}
 
