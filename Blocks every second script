@@ -1,0 +1,148 @@
+getgenv().autoTap = false
+getgenv().buyegg = false
+getgenv().walkSpeed = false
+getgenv().autoRebirth = false
+local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
+
+
+local Window = Rayfield:CreateWindow({
+	Name = "Sword Fighting Simulator by NETFLIX",
+	LoadingTitle = "Sword Fighting Simulator",
+	LoadingSubtitle = "Sword Fighting Simulator by NETFLIX",
+	ConfigurationSaving = {
+		Enabled = true,
+		FolderName = Farming, -- Create a custom folder for your hub/game
+		FileName = ""
+	},
+        Discord = {
+        	Enabled = false,
+        	Invite = "", -- The Discord invite code, do not include discord.gg/
+        	RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+        },
+	
+})
+local Tab = Window:CreateTab("Main", 4483362458)
+local Section = Tab:CreateSection("Farming")
+local Toggle = Tab:CreateToggle({
+	Name = "Auto Click",
+	CurrentValue = false,
+	Flag = "Auto Click", 
+	Callback = function(Value)
+		getgenv().autoTap = Value
+        if Value then
+        doTap()
+	end
+end
+})
+
+function doTap()
+    spawn(function()
+        while getgenv().autoTap == true do
+            game:GetService("ReplicatedStorage").Remotes.PlaceBlock:FireServer()
+            wait()
+        end 
+    end)
+end
+
+
+local Toggle = Tab:CreateToggle({
+	Name = "Auto Rebirth",
+	CurrentValue = false,
+	Flag = "Auto Rebirth", 
+	Callback = function(Value)
+		getgenv().autoRebirth = Value
+        if Value then
+            autoRebirth()
+	end
+end
+})
+
+function autoRebirth()
+    spawn(function()
+        while getgenv().autoRebirth == true do
+            local args = {
+                [1] = "RebirthShop"
+            }
+            
+            game:GetService("ReplicatedStorage").Remotes.Rebirth:InvokeServer(unpack(args))
+            wait()
+        end 
+    end)
+end
+
+local Tab = Window:CreateTab("Eggs", 4483362458)
+local Section = Tab:CreateSection("Egg")
+
+local eggtable = {}
+
+for _,v in pairs(game:GetService("Workspace").Eggs:GetChildren()) do
+  table.insert(eggtable,v.Name)
+end
+
+local eggtoopen = "iagree"
+Tab:CreateDropdown({
+    Name = "Egg to Open",
+    Options = eggtable,
+    CurrentOption = "",
+    Flag = "Egg to open",
+    Callback = function(Option)
+        eggtoopen = Option
+    end,
+})
+
+local Toggle = Tab:CreateToggle({
+	Name = "Auto Buy Egg",
+	CurrentValue = false,
+	Flag = "Auto Egg", 
+	Callback = function(Value)
+        getgenv().buyegg = Value
+        if Value then
+            buyegg(eggtoopen)
+        end
+	end
+})
+
+function buyegg(v)
+    spawn(function()
+        while wait() and getgenv().buyegg do 
+            local args = {
+                [1] = v,
+                [2] = "Single"
+            }
+            
+            game:GetService("ReplicatedStorage").RemoteEvents.EggOpen:InvokeServer(unpack(args))            
+        end
+    end)
+end
+
+local Tab = Window:CreateTab("Misc", 4483362458)
+local Section = Tab:CreateSection("Misc")
+local Toggle = Tab:CreateToggle({
+    Name = "Toggle WalkSpeed",
+    CurrentValue = false,
+    Flag = "Toggle1", 
+    Callback = function(Value)
+        getgenv().ChangeWalkSpeed = Value
+    end,
+})
+
+local Slider = Tab:CreateSlider({
+    Name = "Change WalkSpeed",
+    Range = {50, 500},
+    Increment = 10,
+    Suffix = "Speed",
+    CurrentValue = 10,
+    Flag = "Slider1", 
+    Callback = function(Value)
+        getgenv().walkSpeed = Value
+    end,
+})
+
+task.spawn(function()
+    while wait() do 
+        if getgenv().walkSpeed ~= nil and getgenv().ChangeWalkSpeed then
+            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = getgenv().walkSpeed
+        end
+    end
+end)
+    
