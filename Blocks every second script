@@ -3,7 +3,7 @@ getgenv().buyegg = false
 getgenv().walkSpeed = false
 getgenv().autoRebirth = false
 getgenv().EquipBest = false
-local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
+local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/UI-Interface/CustomFIeld/main/RayField.lua'))()
 
 
 local Window = Rayfield:CreateWindow({
