@@ -45,8 +45,6 @@ function doTap()
             game:GetService("ReplicatedStorage").Remotes.PlaceBlock:FireServer()
             game:GetService("ReplicatedStorage").Remotes.PlaceBlock:FireServer()
             game:GetService("ReplicatedStorage").Remotes.PlaceBlock:FireServer()
-            game:GetService("ReplicatedStorage").Remotes.PlaceBlock:FireServer()
-            game:GetService("ReplicatedStorage").Remotes.PlaceBlock:FireServer()
             wait()
         end 
     end)
