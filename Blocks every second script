@@ -7,9 +7,9 @@ local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/UI-I
 
 
 local Window = Rayfield:CreateWindow({
-	Name = "+1 Block Every Second by NETFLIX",
+	Name = "+1 Block Every Second by Lol123",
 	LoadingTitle = "+1 Block Every Second",
-	LoadingSubtitle = "+1 Block Every Second by NETFLIX",
+	LoadingSubtitle = "Lol123#0030",
 	ConfigurationSaving = {
 		Enabled = true,
 		FolderName = Farming, -- Create a custom folder for your hub/game
@@ -105,7 +105,7 @@ end
 
 local eggtable = {}
 
-for _,v in pairs(game:GetService("Workspace").Eggs:GetChildren()) do
+for _,v in ipairs(game:GetService("Workspace").Eggs:GetChildren()) do
   table.insert(eggtable,v.Name)
 end
 
@@ -121,7 +121,7 @@ Tab:CreateDropdown({
 })
 
 local Toggle = Tab:CreateToggle({
-	Name = "Auto Buy Egg",
+	Name = "Auto Open Egg x1",
 	CurrentValue = false,
 	Flag = "Auto Egg", 
 	Callback = function(Value)
@@ -138,6 +138,31 @@ function buyegg(v)
             local args = {
                 [1] = v,
                 [2] = "Single"
+            }
+            
+            game:GetService("ReplicatedStorage").RemoteEvents.EggOpen:InvokeServer(unpack(args))            
+        end
+    end)
+end
+
+local Toggle = Tab:CreateToggle({
+	Name = "Auto Open Egg x3",
+	CurrentValue = false,
+	Flag = "Auto Egg", 
+	Callback = function(Value)
+        getgenv().buyegg = Value
+        if Value then
+            buyegg(eggtoopen)
+        end
+	end
+})
+
+function buyegg(v)
+    spawn(function()
+        while wait() and getgenv().buyegg do 
+            local args = {
+                [1] = v,
+                [2] = "Triple"
             }
             
             game:GetService("ReplicatedStorage").RemoteEvents.EggOpen:InvokeServer(unpack(args))            
